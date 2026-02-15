@@ -1,16 +1,125 @@
 # Meeting Action Item Tracker
 
-A robust application for tracking meeting action items, processing transcripts with AI, and managing workspaces.
+An Nextjs application designed to track meeting action items, intelligently process transcripts using AI, and manage collaborative workspaces with clarity and control.
 
 ## System Components
+Frontend
+•	Nextjs, React
+•	React flow / @xyflow/react
+•	framer-motion
+•	clsx
+•	Lucide React
+•	tailwind-merge
+Backend
+•	Nextjs App router
+Database
+•	Postgresql – Neon Tech
+•	Prisma
+•	Graphql
+•	Apollo Graphql
+LLM API Provider
+•	Grok console
+•	Models
+o	Gemma / Llama
+Stock and Assets
+•	React Fluid Icons
+•	Lottie files
+•	Freepik
+•	Canva
+Deployement
+•	AWS [App runner]
 
 ## System Architecture
+├── docs/
+│   ├── ~$plan.docx
+│   ├── plan.docx
+│   └── problem.docx
+├── prisma/
+│   ├── migrations/
+│   │   ├── 20260214152806_init/
+│   │   │   └── migration.sql
+│   │   ├── 20260214203059_init_workspace/
+│   │   │   └── migration.sql
+│   │   └── migration_lock.toml
+│   └── schema.prisma
+├── public/
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── auth/
+│   │   │   │   ├── [...nextauth]/
+│   │   │   │   │   └── route.ts
+│   │   │   │   └── signup/
+│   │   │   │       └── route.ts
+│   │   │   ├── graphql/
+│   │   │   │   └── route.ts
+│   │   │   └── health/
+│   │   │       └── route.ts
+│   │   ├── auth/
+│   │   │   ├── signin/
+│   │   │   │   └── page.tsx
+│   │   │   └── signup/
+│   │   │       └── page.tsx
+│   │   ├── status/
+│   │   │   └── page.tsx
+│   │   ├── actions.ts
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   └── providers.tsx
+│   ├── components/
+│   │   ├── layout/
+│   │   │   ├── Navbar.tsx
+│   │   │   └── UserProfile.tsx
+│   │   ├── modals/
+│   │   │   └── AuthModal.tsx
+│   │   ├── transcript/
+│   │   │   └── TranscriptList.tsx
+│   │   ├── ActionItemFlow.tsx
+│   │   ├── TranscriptEditor.tsx
+│   │   └── WorkspaceList.tsx
+│   ├── lib/
+│   │   ├── graphql/
+│   │   │   ├── mutations.ts
+│   │   │   ├── queries.ts
+│   │   │   ├── resolvers.ts
+│   │   │   └── schema.ts
+│   │   ├── apollo-client.ts
+│   │   ├── apollo-server.ts
+│   │   ├── auth.ts
+│   │   ├── llmService.ts
+│   │   ├── prisma.ts
+│   │   └── utils.ts
+│   ├── mocks/
+│   │   ├── handlers.ts
+│   │   └── server.ts
+│   ├── store/
+│   │   ├── slices/
+│   │   │   └── transcriptSlice.ts
+│   │   └── index.ts
+│   └── types/
+│       └── index.d.ts
+├── .dockerignore
+├── .gitignore
+├── docker-compose.yml
+├── Dockerfile
+├── eslint.config.mjs
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── prisma.config.ts
+├── README.md
+└── tsconfig.json
 
-## Data Flow
-
-## User Flow
-
-## Usage
+## Flow
+- Paste Transcript -> Process -> AI extracts action items -> User reviews and edits -> Action items are saved to database -> User can view and manage action items in a visual workspace
 
 ### Prerequisites
 
