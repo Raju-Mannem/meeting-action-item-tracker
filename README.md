@@ -30,10 +30,30 @@ Deployement
 •	AWS [App runner]
 
 ## System Architecture
+
+
+## Flow
+- Paste Transcript -> Process -> AI extracts action items -> User reviews and edits -> Action items are saved to database -> User can view and manage action items in a visual workspace
+```
+meeting-action-item-tracker/
+├── .dockerignore
+├── .gitignore
+├── Dockerfile
+├── README.md
+├── docker-compose.yml
 ├── docs/
-│   ├── ~$plan.docx
+│   ├── data-flow.png
 │   ├── plan.docx
-│   └── problem.docx
+│   ├── problem.docx
+│   ├── system-architecture.png
+│   ├── system-components.png
+│   └── user-flow.png
+├── eslint.config.mjs
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── prisma.config.ts
 ├── prisma/
 │   ├── migrations/
 │   │   ├── 20260214152806_init/
@@ -50,6 +70,7 @@ Deployement
 │   └── window.svg
 ├── src/
 │   ├── app/
+│   │   ├── actions.ts
 │   │   ├── api/
 │   │   │   ├── auth/
 │   │   │   │   ├── [...nextauth]/
@@ -65,34 +86,33 @@ Deployement
 │   │   │   │   └── page.tsx
 │   │   │   └── signup/
 │   │   │       └── page.tsx
-│   │   ├── status/
-│   │   │   └── page.tsx
-│   │   ├── actions.ts
 │   │   ├── favicon.ico
 │   │   ├── globals.css
 │   │   ├── layout.tsx
 │   │   ├── page.tsx
-│   │   └── providers.tsx
+│   │   ├── providers.tsx
+│   │   └── status/
+│   │       └── page.tsx
 │   ├── components/
+│   │   ├── ActionItemFlow.tsx
+│   │   ├── TranscriptEditor.tsx
+│   │   ├── WorkspaceList.tsx
 │   │   ├── layout/
 │   │   │   ├── Navbar.tsx
 │   │   │   └── UserProfile.tsx
 │   │   ├── modals/
 │   │   │   └── AuthModal.tsx
-│   │   ├── transcript/
-│   │   │   └── TranscriptList.tsx
-│   │   ├── ActionItemFlow.tsx
-│   │   ├── TranscriptEditor.tsx
-│   │   └── WorkspaceList.tsx
+│   │   └── transcript/
+│   │       └── TranscriptList.tsx
 │   ├── lib/
+│   │   ├── apollo-client.ts
+│   │   ├── apollo-server.ts
+│   │   ├── auth.ts
 │   │   ├── graphql/
 │   │   │   ├── mutations.ts
 │   │   │   ├── queries.ts
 │   │   │   ├── resolvers.ts
 │   │   │   └── schema.ts
-│   │   ├── apollo-client.ts
-│   │   ├── apollo-server.ts
-│   │   ├── auth.ts
 │   │   ├── llmService.ts
 │   │   ├── prisma.ts
 │   │   └── utils.ts
@@ -100,27 +120,13 @@ Deployement
 │   │   ├── handlers.ts
 │   │   └── server.ts
 │   ├── store/
-│   │   ├── slices/
-│   │   │   └── transcriptSlice.ts
-│   │   └── index.ts
+│   │   ├── index.ts
+│   │   └── slices/
+│   │       └── transcriptSlice.ts
 │   └── types/
 │       └── index.d.ts
-├── .dockerignore
-├── .gitignore
-├── docker-compose.yml
-├── Dockerfile
-├── eslint.config.mjs
-├── next.config.ts
-├── package-lock.json
-├── package.json
-├── postcss.config.mjs
-├── prisma.config.ts
-├── README.md
 └── tsconfig.json
-
-## Flow
-- Paste Transcript -> Process -> AI extracts action items -> User reviews and edits -> Action items are saved to database -> User can view and manage action items in a visual workspace
-
+```
 ### Prerequisites
 
 - Node.js 20+
