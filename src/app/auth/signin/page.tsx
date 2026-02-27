@@ -34,7 +34,7 @@ function SignInContent() {
             } else {
                 router.push(callbackUrl);
             }
-        } catch (err) {
+        } catch {
             setError('Something went wrong');
         } finally {
             setLoading(false);

@@ -23,7 +23,7 @@ export default function StatusPage() {
                 if (!res.ok) throw new Error('Failed to fetch health status');
                 const data = await res.json();
                 setStatus(data);
-            } catch (err) {
+            } catch {
                 setError('Could not connect to health service');
             } finally {
                 setLoading(false);

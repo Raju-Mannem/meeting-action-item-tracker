@@ -94,6 +94,6 @@ const fallbackRegexParser = (text: string): ActionItem[] => {
         .filter(item => item.task.length > 0);
 };
 
-const sanitizeString = (val: any, fallback: string): string => {
+const sanitizeString = (val: unknown, fallback: string): string => {
     return typeof val === 'string' && val.trim() !== '' ? val.trim() : fallback;
 };

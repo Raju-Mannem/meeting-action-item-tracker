@@ -1,9 +1,11 @@
 import { GraphQLError } from "graphql";
-import { Prisma, Status } from "@/generated/prisma/client";
+import { PrismaClient, Prisma, Status } from "@/generated/prisma/client";
+
+type Context = { prisma: PrismaClient };
 
 const resolvers = {
   Query: {
-    healthCheck: async (_parent: any, _args: any, { prisma }: any) => {
+    healthCheck: async (_parent: unknown, _args: unknown, { prisma }: Context) => {
       const dbStatus = await prisma.$queryRaw`SELECT 1`
         .then(() => true)
         .catch(() => false);
@@ -12,13 +14,13 @@ const resolvers = {
         llm: true,
       };
     },
-    users: async (_parent: any, _args: any, { prisma }: any) => {
+    users: async (_parent: unknown, _args: unknown, { prisma }: Context) => {
       return await prisma.user.findMany();
     },
-    user: async (_parent: any, { id }: { id: string }, { prisma }: any) => {
+    user: async (_parent: unknown, { id }: { id: string }, { prisma }: Context) => {
       return await prisma.user.findUnique({ where: { id } });
     },
-    recentTranscripts: async (_parent: any, _args: { userId: string }, { prisma }: any) => {
+    recentTranscripts: async (_parent: unknown, _args: { userId: string }, { prisma }: Context) => {
       return await prisma.transcript.findMany({
         where: { workspace: { userId: _args.userId } },
         take: 5,
@@ -26,14 +28,14 @@ const resolvers = {
         include: { actionItems: true },
       });
     },
-    transcripts: async (_parent: any, { workspaceId }: { workspaceId: string }, { prisma }: any) => {
+    transcripts: async (_parent: unknown, { workspaceId }: { workspaceId: string }, { prisma }: Context) => {
       return await prisma.transcript.findMany({
         where: { workspaceId },
         include: { actionItems: true },
         orderBy: { createdAt: "desc" },
       });
     },
-    workspaces: async (_parent: any, { userId }: { userId: string }, { prisma }: any) => {
+    workspaces: async (_parent: unknown, { userId }: { userId: string }, { prisma }: Context) => {
       return await prisma.workspace.findMany({
         where: { userId },
         orderBy: { createdAt: "desc" },
@@ -42,9 +44,9 @@ const resolvers = {
   },
   Mutation: {
     createActionItem: async (
-      _parent: any,
+      _parent: unknown,
       { input }: { input: { transcriptId: string; task: string; owner?: string; dueDate?: string; status?: Status } },
-      { prisma }: any,
+      { prisma }: Context,
     ) => {
       return await prisma.actionItem.create({
         data: {
@@ -57,16 +59,16 @@ const resolvers = {
       });
     },
     createWorkspace: async (
-      _parent: any,
+      _parent: unknown,
       { input }: { input: { name: string; userId: string } },
-      { prisma }: any,
+      { prisma }: Context,
     ) => {
       return await prisma.workspace.create({ data: input });
     },
     updateWorkspace: async (
-      _parent: any,
+      _parent: unknown,
       { input }: { input: { id: string; name: string } },
-      { prisma }: any,
+      { prisma }: Context,
     ) => {
       return await prisma.workspace.update({
         where: { id: input.id },
@@ -74,20 +76,20 @@ const resolvers = {
       });
     },
     deleteWorkspace: async (
-      _parent: any,
+      _parent: unknown,
       { id }: { id: string },
-      { prisma }: any,
+      { prisma }: Context,
     ) => {
       await prisma.workspace.delete({ where: { id } });
       return true;
     },
-    createUser: async (_parent: any, { input }: { input: { userName: string; password: string } }, { prisma }: any) => {
+    createUser: async (_parent: unknown, { input }: { input: { userName: string; password: string } }, { prisma }: Context) => {
       return await prisma.user.create({ data: input });
     },
     updateUser: async (
-      _parent: any,
+      _parent: unknown,
       { input }: { input: { id: string; userName: string; password: string } },
-      { prisma }: any,
+      { prisma }: Context,
     ) => {
       return await prisma.user.update({
         where: { id: input.id },
@@ -95,24 +97,24 @@ const resolvers = {
       });
     },
     deleteUser: async (
-      _parent: any,
+      _parent: unknown,
       { id }: { id: string },
-      { prisma }: any,
+      { prisma }: Context,
     ) => {
       await prisma.user.delete({ where: { id } });
       return true;
     },
     createTranscript: async (
-      _parent: any,
+      _parent: unknown,
       { input }: { input: { content: string; workspaceId: string } },
-      { prisma }: any,
+      { prisma }: Context,
     ) => {
       return await prisma.transcript.create({ data: input });
     },
     updateTranscript: async (
-      _parent: any,
+      _parent: unknown,
       { input }: { input: { id: string; content: string; workspaceId: string } },
-      { prisma }: any,
+      { prisma }: Context,
     ) => {
       return await prisma.transcript.update({
         where: { id: input.id },
@@ -120,29 +122,29 @@ const resolvers = {
       });
     },
     deleteTranscript: async (
-      _parent: any,
+      _parent: unknown,
       { id }: { id: string },
-      { prisma }: any,
+      { prisma }: Context,
     ) => {
       await prisma.transcript.delete({ where: { id } });
       return true;
     },
     deleteActionItem: async (
-      _parent: any,
+      _parent: unknown,
       { id }: { id: string },
-      { prisma }: any,
+      { prisma }: Context,
     ) => {
       try {
         await prisma.actionItem.delete({ where: { id } });
         return true;
-      } catch (error) {
+      } catch {
         return false;
       }
     },
     processTranscript: async (
-      _parent: any,
+      _parent: unknown,
       { input }: { input: { text: string; workspaceId: string } },
-      { prisma }: any,
+      { prisma }: Context,
     ) => {
       const { text, workspaceId } = input;
 
@@ -180,9 +182,9 @@ const resolvers = {
     },
 
     updateActionItem: async (
-      _parent: any,
+      _parent: unknown,
       { input }: { input: { id: string; status?: Status; task?: string; owner?: string; dueDate?: string } },
-      { prisma }: any,
+      { prisma }: Context,
     ) => {
       const { id, ...updateData } = input;
 
@@ -191,7 +193,7 @@ const resolvers = {
           where: { id },
           data: updateData,
         });
-      } catch (error) {
+      } catch {
         throw new GraphQLError("Action Item not found or update failed.", {
           extensions: { code: "NOT_FOUND" },
         });

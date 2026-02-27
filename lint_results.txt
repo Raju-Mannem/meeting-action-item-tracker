@@ -1,0 +1,149 @@
+
+> meeting-action-item-tracker@0.1.0 lint
+> eslint
+
+
+D:\tests\meeting-action-item-tracker\src\app\auth\signin\page.tsx
+  37:18  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\tests\meeting-action-item-tracker\src\app\auth\signup\page.tsx
+  33:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\tests\meeting-action-item-tracker\src\app\page.tsx
+   38:34  warning  'sessionStatus' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  286:62  error    Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+
+D:\tests\meeting-action-item-tracker\src\app\status\page.tsx
+  26:22  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\tests\meeting-action-item-tracker\src\components\ActionItemFlow.tsx
+   24:35  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-explicit-any
+   29:9   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\tests\meeting-action-item-tracker\src\components\ActionItemFlow.tsx:29:9
+  27 |
+  28 |     useEffect(() => {
+> 29 |         setLabel(data.label);
+     |         ^^^^^^^^ Avoid calling setState() directly within an effect
+  30 |     }, [data.label]);
+  31 |
+  32 |     const onLabelChange = (e: React.ChangeEvent<HTMLInputElement>) => {                                                                                                                                                                                                                                                                                                                                                                                                          react-hooks/set-state-in-effect
+  135:8   warning  React Hook useEffect has missing dependencies: 'onToggleStatus', 'onUpdateItem', 'setEdges', and 'setNodes'. Either include them or remove the dependency array. If 'onToggleStatus' changes too often, find the parent component that defines it and wrap that definition in useCallback                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/exhaustive-deps
+  137:43  error    Compilation Skipped: Existing memoization could not be preserved
+
+React Compiler has skipped optimizing this component because the existing manual memoization could not be preserved. The inferred dependencies did not match the manually specified dependencies, which could cause the value to change more or less frequently than expected. The inferred dependency was `setNodes`, but the source dependencies were []. Inferred dependency not present in source.
+
+D:\tests\meeting-action-item-tracker\src\components\ActionItemFlow.tsx:137:43
+  135 |     }, [items]);
+  136 |
+> 137 |     const handleLabelChange = useCallback((id: string, newLabel: string) => {
+      |                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 138 |         setNodes((nds) =>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 139 |             nds.map((node) =>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 140 |                 node.id === id
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 141 |                     ? { ...node, data: { ...node.data, label: newLabel } }
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 142 |                     : node
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 143 |             )
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 144 |         );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 145 |     }, []);
+      | ^^^^^^ Could not preserve existing manual memoization
+  146 |
+  147 |     const onConnect = useCallback(
+  148 |         (params: Connection) =>  react-hooks/preserve-manual-memoization
+  145:8   warning  React Hook useCallback has a missing dependency: 'setNodes'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  react-hooks/exhaustive-deps
+  148:9   error    Compilation Skipped: Existing memoization could not be preserved
+
+React Compiler has skipped optimizing this component because the existing manual memoization could not be preserved. The inferred dependencies did not match the manually specified dependencies, which could cause the value to change more or less frequently than expected. The inferred dependency was `setEdges`, but the source dependencies were []. Inferred dependency not present in source.
+
+D:\tests\meeting-action-item-tracker\src\components\ActionItemFlow.tsx:148:9
+  146 |
+  147 |     const onConnect = useCallback(
+> 148 |         (params: Connection) =>
+      |         ^^^^^^^^^^^^^^^^^^^^^^^
+> 149 |             setEdges((eds) =>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 150 |                 addEdge(
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 157 |                 )
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 158 |             ),
+      | ^^^^^^^^^^^^^^ Could not preserve existing manual memoization
+  159 |         []
+  160 |     );
+  161 |                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/preserve-manual-memoization
+  159:9   warning  React Hook useCallback has a missing dependency: 'setEdges'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  react-hooks/exhaustive-deps
+
+D:\tests\meeting-action-item-tracker\src\components\WorkspaceList.tsx
+   7:10  warning  'useState' is defined but never used  @typescript-eslint/no-unused-vars
+  61:22  warning  'err' is defined but never used       @typescript-eslint/no-unused-vars
+
+D:\tests\meeting-action-item-tracker\src\lib\auth.ts
+  51:17  error  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+
+D:\tests\meeting-action-item-tracker\src\lib\graphql\resolvers.ts
+    6:34   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+    6:46   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+    6:63   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   15:28   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   15:40   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   15:57   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   18:27   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   18:68   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   21:40   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   21:84   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   29:34   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   29:93   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   36:33   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   36:82   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   45:16   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   47:19   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   60:16   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   62:19   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   67:16   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   69:19   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   77:16   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   79:19   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   84:33   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   84:112  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   88:16   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   90:19   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   98:16   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  100:19   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  106:16   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  108:19   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  113:16   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  115:19   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  123:16   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  125:19   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  131:16   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  133:19   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  138:16   warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  143:16   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  145:19   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  183:16   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  185:19   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  194:16   warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+
+D:\tests\meeting-action-item-tracker\src\lib\llmService.ts
+  97:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\tests\meeting-action-item-tracker\src\mocks\handlers.ts
+   4:39  warning  'variables' is defined but never used  @typescript-eslint/no-unused-vars
+  15:44  warning  'variables' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 60 problems (48 errors, 12 warnings)
+

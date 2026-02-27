@@ -4,7 +4,6 @@ import { useMutation, useQuery } from '@apollo/client/react';
 import { Loader2, Briefcase, Plus, Trash2, Edit2, RefreshCw } from 'lucide-react';
 import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
 import { GET_WORKSPACES, DELETE_WORKSPACE, UPDATE_WORKSPACE } from '@/lib/graphql/queries';
 
 interface Workspace {
@@ -45,8 +44,7 @@ export default function WorkspaceList({ selectedId, onSelect, onCreateNew }: Wor
             await deleteWorkspace({ variables: { id } });
             refetch();
             if (selectedId === id) onSelect('');
-        } catch (err) {
-            console.error(err);
+        } catch {
             alert("Failed to delete workspace.");
         }
     };
@@ -58,7 +56,7 @@ export default function WorkspaceList({ selectedId, onSelect, onCreateNew }: Wor
             try {
                 await updateWorkspace({ variables: { input: { id, name: newName } } });
                 refetch();
-            } catch (err) {
+            } catch {
                 alert("Failed to update workspace.");
             }
         }

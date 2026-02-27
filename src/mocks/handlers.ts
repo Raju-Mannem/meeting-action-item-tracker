@@ -1,7 +1,7 @@
 import { graphql, HttpResponse } from 'msw'
 
 export const handlers = [
-    graphql.query('GetWorkspaces', ({ variables }) => {
+    graphql.query('GetWorkspaces', () => {
         return HttpResponse.json({
             data: {
                 workspaces: [
@@ -12,7 +12,7 @@ export const handlers = [
         })
     }),
 
-    graphql.mutation('DeleteWorkspace', ({ variables }) => {
+    graphql.mutation('DeleteWorkspace', () => {
         return HttpResponse.json({
             data: {
                 deleteWorkspace: true,

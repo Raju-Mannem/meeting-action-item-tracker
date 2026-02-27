@@ -21,13 +21,15 @@ import clsx from 'clsx';
 import { CheckCircle2, Circle } from 'lucide-react';
 import { toast } from 'sonner';
 
-const ActionNode = ({ id, data }: any) => {
+const ActionNode = ({ id, data }: { id: string; data: { label: string; status: string; owner?: string; onChange: (id: string, label: string) => void; onToggle: () => void } }) => {
 
     const [label, setLabel] = useState(data.label);
+    const [prevLabelProp, setPrevLabelProp] = useState(data.label);
 
-    useEffect(() => {
+    if (data.label !== prevLabelProp) {
         setLabel(data.label);
-    }, [data.label]);
+        setPrevLabelProp(data.label);
+    }
 
     const onLabelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLabel(e.target.value);
@@ -132,6 +134,7 @@ export default function ActionItemFlow({ items, onToggleStatus, onUpdateItem }: 
         setNodes(initialNodes);
         setEdges(initialEdges);
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [items]);
 
     const handleLabelChange = useCallback((id: string, newLabel: string) => {
@@ -142,7 +145,7 @@ export default function ActionItemFlow({ items, onToggleStatus, onUpdateItem }: 
                     : node
             )
         );
-    }, []);
+    }, [setNodes]);
 
     const onConnect = useCallback(
         (params: Connection) =>
@@ -156,7 +159,7 @@ export default function ActionItemFlow({ items, onToggleStatus, onUpdateItem }: 
                     eds
                 )
             ),
-        []
+        [setEdges]
     );
 
     const addNewNode = () => {

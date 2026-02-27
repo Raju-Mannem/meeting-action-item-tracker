@@ -35,7 +35,7 @@ import { GET_TRANSCRIPTS } from "@/lib/graphql/queries";
 export default function Home() {
   const dispatch = useAppDispatch();
   const transcripts = useAppSelector((state) => state.transcript.transcripts);
-  const { data: session, status: sessionStatus } = useSession();
+  const { data: session } = useSession();
 
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState<string | null>(
     null,
@@ -283,7 +283,7 @@ export default function Home() {
     const name = prompt("Workspace Name:");
     if (name && session) {
       await createWorkspace({
-        variables: { input: { name, userId: (session.user as any).id } },
+        variables: { input: { name, userId: (session.user as {id: string}).id } },
       });
       window.location.reload();
     }
